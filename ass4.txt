@@ -1,0 +1,56 @@
+# Step 1: Import libraries and create alias for Pandas, Numpy, and Matplotlib
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Step 2: Import the Boston Housing dataset
+from sklearn.datasets import load_boston
+boston = load_boston()
+
+# Step 3: Initialize the data frame
+data = pd.DataFrame(boston.data)
+
+# Step 4: Add the feature names to the dataframe
+data.columns = boston.feature_names
+
+# Step 5: Adding target variable to dataframe
+data['PRICE'] = boston.target
+
+# Step 6: Perform Data Preprocessing( Check for missing values)
+missing_values = data.isnull().sum()
+print("Missing Values:")
+print(missing_values)
+
+# Step 7: Split dependent variable and independent variables
+x = data.drop(['PRICE'], axis=1)
+y = data['PRICE']
+
+# Step 8: splitting data to training and testing dataset.
+from sklearn.model_selection import train_test_split
+xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size=0.2, random_state=0)
+
+# Step 9: Use linear regression( Train the Machine ) to Create Model
+from sklearn.linear_model import LinearRegression
+lm = LinearRegression()
+model = lm.fit(xtrain, ytrain)
+
+# Step 10: Predict the y_pred for all values of train_x and test_x
+ytrain_pred = lm.predict(xtrain)
+ytest_pred = lm.predict(xtest)
+
+# Step 11: Evaluate the performance of Model for train_y and test_y
+from sklearn.metrics import mean_squared_error, r2_score
+mse_train = mean_squared_error(ytrain, ytrain_pred)
+mse_test = mean_squared_error(ytest, ytest_pred)
+print("Mean Squared Error (Train):", mse_train)
+print("Mean Squared Error (Test):", mse_test)
+
+# Step 12: Plotting the linear regression model
+plt.scatter(ytrain, ytrain_pred, c='blue', marker='o', label='Training data')
+plt.scatter(ytest, ytest_pred, c='lightgreen', marker='s', label='Test data')
+plt.xlabel('True values')
+plt.ylabel('Predicted')
+plt.title("True value vs Predicted value")
+plt.legend(loc='upper left')
+plt.plot()
+plt.show()

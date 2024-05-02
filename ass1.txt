@@ -1,0 +1,24 @@
+import pandas as pd
+df = pd.read_csv('iris.csv')
+# Inspect first few rows of the dataset
+print(df.head())
+
+# Check for missing values
+print(df.isnull().sum())
+
+# Get initial statistics
+print(df.describe())
+
+# Check dimensions of the dataframe
+print(df.shape)  # This will give you the number of rows and columns
+
+# Check data types of variables
+print(df.dtypes)
+
+# For categorical variables, you can use one-hot encoding to turn them into quantitative variables.
+# However, in the case of the Iris dataset, the 'class' column is already in a numeric format.
+# If it wasn't, you could use pd.get_dummies() to perform one-hot encoding.
+# For example:
+# df = pd.get_dummies(df, columns=['class'])
+
+# But since it's not necessary in this case, we don't need to perform this step.

@@ -1,0 +1,38 @@
+import pandas as pd
+import numpy as np
+
+# Create a dictionary with sample data
+data = {
+    'Student_ID': [1, 2, 3, 4, 5],
+    'Age': [20, 22, 21, np.nan, 19],  # Adding missing value
+    'Math_Score': [85, 78, 90, 95, 60],
+    'Physics_Score': [70, 85, 88, 92, 75],
+    'English_Score': [80, 75, 88, 90, 65],
+}
+
+# Create a DataFrame
+df = pd.DataFrame(data)
+print(df)
+
+# Check for missing values
+print(df.isnull().sum())
+
+# Fill missing values with mean
+df['Age'].fillna(df['Age'].mean(), inplace=True)
+print(df)
+
+# Identify outliers using Z-score
+from scipy import stats
+
+z_scores = np.abs(stats.zscore(df[['Math_Score', 'Physics_Score', 'English_Score']]))
+threshold = 3
+outliers = (z_scores > threshold).any(axis=1)
+print(df[outliers])
+
+# Remove outliers
+df = df[~outliers]
+print(df)
+
+# Apply square root transformation
+df['Math_Score_Transformed'] = np.sqrt(df['Math_Score'])
+print(df)

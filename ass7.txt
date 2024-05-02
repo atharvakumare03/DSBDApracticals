@@ -1,0 +1,52 @@
+sample_document = "Natural language processing (NLP) is a subfield of linguistics, computer science, and artificial intelligence concerned with the interactions between computers and human language."
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+from nltk import pos_tag
+
+# Download necessary resources
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
+
+# Tokenization
+tokens = word_tokenize(sample_document)
+
+# POS Tagging
+pos_tags = pos_tag(tokens)
+
+# Stop Words Removal
+stop_words = set(stopwords.words('english'))
+filtered_tokens = [word for word in tokens if word.lower() not in stop_words]
+
+# Stemming
+stemmer = PorterStemmer()
+stemmed_tokens = [stemmer.stem(word) for word in filtered_tokens]
+
+# Lemmatization
+lemmatizer = WordNetLemmatizer()
+lemmatized_tokens = [lemmatizer.lemmatize(word) for word in filtered_tokens]
+
+print("Original Tokens:", tokens)
+print("POS Tags:", pos_tags)
+print("Filtered Tokens (Stop Words Removal):", filtered_tokens)
+print("Stemmed Tokens:", stemmed_tokens)
+print("Lemmatized Tokens:", lemmatized_tokens)
+
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+# Combine preprocessed tokens back into a document
+preprocessed_document = ' '.join(lemmatized_tokens)
+
+# Create TF-IDF representation
+tfidf_vectorizer = TfidfVectorizer()
+tfidf_matrix = tfidf_vectorizer.fit_transform([preprocessed_document])
+
+# Convert TF-IDF matrix to DataFrame for better visualization
+tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), columns=tfidf_vectorizer.get_feature_names_out())
+print("TF-IDF Representation:")
+print(tfidf_df)

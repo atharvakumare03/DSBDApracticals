@@ -1,0 +1,34 @@
+import org.apache.spark.SparkConf
+import org.apache.spark.sql.SparkSession
+
+object WordCount {
+
+  def main(args: Array[String]): Unit = {
+    // Create a SparkConf object with configuration for Spark
+    val conf = new SparkConf()
+      .setAppName("WordCount")
+      .setMaster("local[*]")  // Run Spark locally using all available CPU cores
+
+    // Create a SparkSession
+    val spark = SparkSession.builder()
+      .config(conf)
+      .getOrCreate()
+
+    // Read the text file into a DataFrame
+    val textFile = spark.read.textFile("input.txt")
+
+    // Perform word count using Spark transformations and actions
+    val wordCounts = textFile
+      .flatMap(_.split("\\s+"))  // Split each line into words
+      .map(word => (word, 1))    // Map each word to a key-value pair (word, 1)
+      .reduceByKey(_ + _)        // Reduce by key (word) by summing up the counts
+      .sortBy(_._2, ascending = false)  // Sort by count in descending order
+
+    // Print the word counts
+    println("Word Counts:")
+    wordCounts.collect().foreach(println)
+
+    // Stop the SparkSession
+    spark.stop()
+  }
+}

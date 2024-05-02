@@ -1,0 +1,22 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the Titanic dataset
+titanic = sns.load_dataset('titanic')
+
+# Plotting box plot for age distribution with respect to gender and survival
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='sex', y='age', hue='survived', data=titanic)
+plt.title('Age Distribution by Gender and Survival')
+plt.xlabel('Gender')
+plt.ylabel('Age')
+plt.show()
+
+Observations:
+
+For both genders, the median age of survivors is slightly lower than non-survivors.
+The range of ages for survivors and non-survivors is wider for females compared to males.
+There are outliers in the age distribution, particularly among male survivors, indicating the presence of individuals with extreme ages who survived.
+The distribution of ages for male survivors appears to be slightly positively skewed, with a longer upper whisker indicating higher variability in ages among survivors compared to non-survivors.
+The median age for both male and female survivors is lower than that of non-survivors, suggesting that younger individuals had a higher chance of survival.
+Overall, the box plot shows differences in age distributions between survivors and non-survivors across genders.

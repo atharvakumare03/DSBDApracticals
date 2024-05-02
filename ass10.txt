@@ -1,0 +1,63 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd 
+
+df = pd.read_csv("iris.csv")
+df.head()
+
+df.describe()
+
+df.shape
+
+df["Species"].unique()
+
+df.groupby("Species").size()
+
+df.info()
+
+#Create a histogram for each feature in the dataset.
+
+# Drop non-numeric columns, assuming 'species' is the column containing 'Iris-setosa'
+numeric_df = df.drop(columns=['Species'])
+
+# Calculate correlation matrix
+corr = numeric_df.corr()
+
+# Plot heatmap
+plt.subplots(figsize=(10, 6))
+sns.heatmap(corr, annot=True)
+plt.show()
+
+#Create a box plot for each feature in the dataset
+
+def graph(y):
+ sns.boxplot(x="Species", y=y, data=df)
+ 
+plt.figure(figsize=(10,10))
+     
+# Adding the subplot at the specified
+# grid position
+plt.subplot(221)
+graph('SepalLengthCm')
+ 
+plt.subplot(222)
+graph('SepalWidthCm')
+ 
+plt.subplot(223)
+graph('PetalLengthCm')
+ 
+plt.subplot(224)
+graph('PetalWidthCm')
+ 
+plt.show()
+
+#Compare distributions and identify outliers.
+
+sns.boxplot(x='SepalWidthCm', data=df)
+plt.show()
+sns.boxplot(x='SepalLengthCm', data=df)
+plt.show()
+sns.boxplot(x='PetalWidthCm', data=df)
+plt.show()
+sns.boxplot(x='PetalLengthCm', data=df)
+plt.show()

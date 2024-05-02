@@ -1,0 +1,27 @@
+import pandas as pd
+
+# Load the iris dataset
+df = pd.read_csv('iris.csv')
+
+# Group by species and calculate summary statistics for petal length
+summary_stats = df.groupby('species')['petal_length'].describe()
+
+print(summary_stats)
+
+# Filter data for each species
+setosa_data = df[df['species'] == 'Iris-setosa']
+versicolor_data = df[df['species'] == 'Iris-versicolor']
+virginica_data = df[df['species'] == 'Iris-virginica']
+
+# Calculate basic statistical details for each species
+setosa_stats = setosa_data.describe()
+versicolor_stats = versicolor_data.describe()
+virginica_stats = virginica_data.describe()
+
+# Display statistical details for each species
+print("Iris-setosa statistics:")
+print(setosa_stats)
+print("\nIris-versicolor statistics:")
+print(versicolor_stats)
+print("\nIris-virginica statistics:")
+print(virginica_stats)

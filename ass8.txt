@@ -1,0 +1,23 @@
+import seaborn as sns
+from matplotlib import pyplot as plt
+from seaborn import set_style
+
+# Load the Titanic dataset
+titanic = sns.load_dataset('titanic')
+
+# View the first few rows of the dataset
+print(titanic.head())
+
+# Use Seaborn to visualize patterns in the data
+set_style("whitegrid")
+sns.pairplot(titanic, hue="survived", palette="husl", markers=["o", "s"])
+plt.show()
+
+
+# Plotting histogram of ticket fares
+plt.figure(figsize=(10, 6))
+sns.histplot(titanic['fare'], bins=20, kde=True, color='blue')
+plt.title('Distribution of Ticket Fares')
+plt.xlabel('Fare')
+plt.ylabel('Frequency')
+plt.show()

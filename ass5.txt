@@ -1,0 +1,50 @@
+# Step 1: Import libraries
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
+
+# Step 2: Load the dataset
+data = pd.read_csv('Social_Network_Ads.csv')
+
+# Step 3: Preprocess the data
+# Assuming 'Purchased' column is the target variable
+X = data[['Age', 'EstimatedSalary']]
+y = data['Purchased']
+
+# Step 4: Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Step 5: Create and train the logistic regression model
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Step 6: Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Step 7: Compute confusion matrix
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+# Step 8: Compute metrics from confusion matrix
+TP = conf_matrix[1, 1]
+FP = conf_matrix[0, 1]
+TN = conf_matrix[0, 0]
+FN = conf_matrix[1, 0]
+
+accuracy = accuracy_score(y_test, y_pred)
+error_rate = 1 - accuracy
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+
+# Step 9: Print the confusion matrix and metrics
+print("Confusion Matrix:")
+print(conf_matrix)
+print("True Positives:", TP)
+print("False Positives:", FP)
+print("True Negatives:", TN)
+print("False Negatives:", FN)
+print("Accuracy:", accuracy)
+print("Error Rate:", error_rate)
+print("Precision:", precision)
+print("Recall:", recall)
